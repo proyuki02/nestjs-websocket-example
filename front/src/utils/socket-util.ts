@@ -13,19 +13,22 @@ export class SocketUtil {
   }
 
   request(options: IRequestOptions): any {
-    const opts = {timeout: 3000, ...options};
+    const opts = { timeout: 5000, ...options };
 
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        this.socket.removeListener(opts.event);
-        reject(new Error(`Timeout waiting for event(${opts.event})`));
-      }, opts.timeout);;
+      const { timeout, event, message } = opts;
+      const exceptionEvent = `${event}Exception`;
 
-      this.socket.emit(opts.event, opts.message, (data: any) => {
+      const timer = setTimeout(() => {
+        this.socket.removeListener(exceptionEvent);
+        reject(new Error(`timeout of ${timeout}ms exceeded for ${event}`));
+      }, timeout);;
+
+      this.socket.emit(event, message, (data: any) => {
         clearTimeout(timer);
         resolve(data);
       });
-      this.socket.once(`${opts.event}Exception`, (data: any) => {
+      this.socket.once(exceptionEvent, (data: any) => {
         clearTimeout(timer);
         reject(data);
       });

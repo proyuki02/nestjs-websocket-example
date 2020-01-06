@@ -21,14 +21,15 @@ const slice = createSlice({
 export default slice;
 export const { setSleep, setMessage } = slice.actions;
 
-export function sleepRest() {
+export function sleepRest(time: number) {
   return async function (dispatch: Function) {
     try {
       dispatch(setMessage(''));
       const res = await axios.request({
-        method: 'GET',
+        method: 'POST',
         url: '/api/sleep',
-        timeout: 3000,
+        timeout: 5000,
+        data: { time }
       })
       dispatch(setSleep(res.data.sleep));
     } catch (err) {
@@ -38,11 +39,14 @@ export function sleepRest() {
   }
 }
 
-export function sleepSocket() {
+export function sleepSocket(time: number) {
   return async function (dispatch: Function) {
     try {
       dispatch(setMessage(''));
-      const res = await socket.request({ event: 'getSleep' });
+      const res = await socket.request({
+        event: 'postSleep',
+        message: { time }
+      });
       console.log(res)
       dispatch(setSleep(res.sleep));
     } catch (err) {

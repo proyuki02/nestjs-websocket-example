@@ -16,8 +16,18 @@ const App: React.FC = () => {
       <button onClick={() => dispatch(countUpSocket())}>countUpSocket</button>
       <p>{sleeper.sleep}</p>
       <p>{sleeper.message}</p>
-      <button onClick={() => dispatch(sleepRest())}>sleepRest</button>
-      <button onClick={() => dispatch(sleepSocket())}>sleepSocket</button>
+      <div>
+        <button onClick={() => dispatch(sleepRest(2000))}>sleepRest2sec</button>
+        <button onClick={() => dispatch(sleepSocket(2000))}>sleepSocket2sec</button>
+      </div>
+      <div>
+        <button onClick={() => dispatch(sleepRest(4000))}>sleepRest4sec</button>
+        <button onClick={() => dispatch(sleepSocket(4000))}>sleepSocket4sec</button>
+      </div>
+      <div>
+        <button onClick={() => dispatch(sleepRest(6000))}>sleepRest6sec</button>
+        <button onClick={() => dispatch(sleepSocket(6000))}>sleepSocket6sec</button>
+      </div>
     </div>
   );
 }

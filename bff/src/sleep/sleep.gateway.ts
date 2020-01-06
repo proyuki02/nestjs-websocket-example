@@ -7,10 +7,10 @@ import { WebsocketExceptionFilter } from '../filters/websocket-exception.filter'
 export class SleepGateway {
   constructor(private sleepService: SleepService) { }
 
-  @SubscribeMessage('getSleep')
-  @UseFilters(new WebsocketExceptionFilter('getSleep'))
-  async getSleep(client: any, payload: any) {
-    await this.sleepService.sleep(10000)
-    return { sleep: 10000 };
+  @SubscribeMessage('postSleep')
+  @UseFilters(new WebsocketExceptionFilter('postSleep'))
+  async postSleep(client: any, payload: any) {
+    await this.sleepService.sleep(payload.time)
+    return { sleep: payload.time };
   }
 }
